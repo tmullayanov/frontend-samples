@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- libs/runtimes-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+
+<!-- Let's have some fun-->
+<script>
+  var animateTime = 400;
+
+  function randomByte() {
+    return Math.floor(Math.random() * 256);
+  }
+
+  function randomColor() {
+    return "rgb(" + [randomByte(), randomByte(), randomByte()].join(",") + ")";
+  }
+
+  function smoothTextSub (jqueryId, animateTime, newText) {
+    $(jqueryId).animate({
+      opacity: 0
+    }, animateTime, function() {
+      $(this).animate({
+        opacity: 1
+      }, animateTime);
+      $(jqueryId).text(newText);
+    });
+  };
+
+  function askQuote() {
+    $.getJSON("http://quotes.stormconsultancy.co.uk/random.json", function(json) {
+      smoothTextSub("#quote", animateTime, json['quote']);
+      smoothTextSub("#author", animateTime, json['author'])
+    });
+  }
+
+  $(document).ready(function() {
+    askQuote();
+
+    $("#new-quote").on("click", function() {
+      askQuote();
+
+      var newColor = randomColor();
+      $("h1").css("color", newColor);
+      $(".frame").css("border-color", newColor);
+    });
+
+    $("#twitter").on("click", function() {
+      window.open("https://twitter.com/intent/tweet?text=" +
+        $("#quote").text() + " (" + $("#author").text() + ")");
+    });
+  });
+</script>
+
+<style>
+  h1 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-family: Lobster, monospace;
+    color: red;
+  }
+
+  .frame {
+    width: 600px;
+    padding: 20px;
+
+    border-width: 5px;
+    border-radius: 10px;
+    border-style: dashed;
+    border-color: red;
+
+    overflow: hidden;
+    clear: both;   /* 2 last lines makes container actually CONTAIN floating elements */
+  }
+
+  #twitter {
+    float: left;
+  }
+
+  #new-quote {
+    float: right;
+  }
+</style>
+
+<body>
+  <center>
+    <h1>Random Quote Generator</h1>
+  </center>
+  <center>
+    <div class="frame">
+      <div class="text text-center" id="quote-text" style="font-size: 24px;">
+        <p>"<span id="quote"></span>"</p>
+      </div>
+      <div class="text text-right" id="quote-author" style="font-size: 16px;">
+        <p>- <em><span id="author"></span></em></p>
+      </div>
+      <button class="btn btn-default" id="twitter"><i class="fa fa-twitter"></i> Tweet!</button>
+      <button class="btn btn-default" id="new-quote"><i class="fa fa-pencil"></i> New quote</button>
+    </div>
+  </center>
+</body>
+
+<footer style="margin-top: 100px;">
+  <center>
+    <p><em>Inspired By tmullayanov</em></p>
+  </center>
+</footer>
