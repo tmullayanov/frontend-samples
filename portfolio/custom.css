@@ -1,0 +1,15 @@
+body {
+  background-color: silver;
+}
+.prompt {
+  font-size: 34px;
+  font-family: Monospace;
+  color: black;
+}
+
+#hr1 {
+  border: none;
+  color: black;
+  background-color: black;
+  height: 2px;
+}
