@@ -1,0 +1,23 @@
+body {
+  background-color: #f0f0f0;
+}
+
+h1 {
+  font-size: 60px;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding: 30px;
+}
+
+#temp-unit {
+  cursor: pointer;
+  color: #006dcc;
+}
+
+#temp-unit:hover {
+  color: #005096;
+}
+
+.weather {
+  font-size: 22px;
+}
